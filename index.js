@@ -55,12 +55,15 @@ app.route('/rooms')
         if (rooms.addRoom(room)) return res.redirect(`/rooms/${room}`)
         else return res.sendStatus(404)
     })
-app.route('/rooms/:room')
     .get((req, res) => {
-        const { room } = req.params
-        if (!rooms.doesRoomExist(room)) res.sendStatus(404)
-        else res.sendFile(__dirname + '/room.html')
+        if (!req.query.room) return res.sendStatus(404)
+        res.redirect(`/rooms/${req.query.room}`)
     })
+app.get('/rooms/:room', (req, res) => {
+    const { room } = req.params
+    if (!rooms.doesRoomExist(room)) res.sendStatus(404)
+    else res.sendFile(__dirname + '/room.html')
+})
 
 app.listen(3000, () => {
     console.log('Listening on port 3000')
