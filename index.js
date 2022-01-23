@@ -20,11 +20,13 @@ rooms.addMessage = (roomName, message) => {
 }
 rooms.getMessages = (roomName) => {
     const room = `room_${roomName}`
+    // A message can't be gotten from a non-existent room
     if (!(Object.keys(rooms).includes(room))) return false
     return rooms[room]
 }
 rooms.addRoom = (roomName) => {
     const room = `room_${roomName}`
+    // A room can't be created again while it already exists
     if (Object.keys(rooms).includes(room)) return false
     rooms[room] = []
     return true
@@ -57,6 +59,7 @@ app.route('/rooms')
     })
     .get((req, res) => {
         if (!req.query.room) return res.sendStatus(404)
+        // We need to redirect so that the URL is of a consistent format
         res.redirect(`/rooms/${req.query.room}`)
     })
 app.get('/rooms/:room', (req, res) => {
