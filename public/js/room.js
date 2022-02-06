@@ -11,7 +11,7 @@ $chatMessageBox.onsubmit = (e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({message})
-    })
+    }).then().catch()
     $chatText.value = ''
 }
 
@@ -19,7 +19,7 @@ $chatMessageBox.onsubmit = (e) => {
 const { href } = window.location
 const lastDirectoryEndIndex = href.lastIndexOf('/')
 // Gets "room-name" from the URL format specified above
-const roomName = href.substr(lastDirectoryEndIndex + 1)
+const roomName = href.substring(lastDirectoryEndIndex + 1)
 
 const formatDisplayMessages = (messages) => {
     $chatHistory.innerText = ''
