@@ -6,6 +6,8 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+app.set('view engine', 'ejs')
+
 const rooms = {}
 rooms.addMessage = (roomName, message) => {
     const room = `room_${roomName}`
@@ -65,7 +67,7 @@ app.route('/rooms')
 app.get('/rooms/:room', (req, res) => {
     const { room } = req.params
     if (!rooms.doesRoomExist(room)) res.sendStatus(404)
-    else res.sendFile(__dirname + '/room.html')
+    else res.render('room.ejs', {messages: rooms.getMessages(room)})
 })
 
 app.listen(3000, () => {

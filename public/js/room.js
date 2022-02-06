@@ -21,11 +21,20 @@ const lastDirectoryEndIndex = href.lastIndexOf('/')
 // Gets "room-name" from the URL format specified above
 const roomName = href.substr(lastDirectoryEndIndex + 1)
 
+const formatDisplayMessages = (messages) => {
+    $chatHistory.innerText = ''
+    for (const message of messages) {
+        $message = document.createElement('p')
+        $message.innerText = message
+        $chatHistory.appendChild($message)
+    }
+}
+
 const getMessagesAndUpdate = () => {
     fetch(`/messages/${roomName}`)
         .then(res => res.json())
         .then(data => {
-            $chatHistory.innerText = data.messages
+            formatDisplayMessages(data.messages)
         })
 }
 
